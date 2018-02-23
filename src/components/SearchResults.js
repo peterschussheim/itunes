@@ -2,22 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const styles = {
+  searchResults: {
+    maxWidth: '60%'
+  },
+  img: {
+    gridArea: 'img',
+    paddingTop: 5,
+    maxWidth: '100%'
+  },
   media: {
     display: 'grid',
     gridColumnGap: '20px',
-    gridTemplateRows: 'auto 1fr auto',
-    gridTemplateAreas: '"img" "name" "content"'
-  },
-  img: {
-    paddingTop: 5,
-    gridArea: 'img',
-    maxWidth: '100%'
-  },
-  name: { gridArea: 'name' },
-  content: {
-    gridArea: 'content',
-    backgroundColor: '#eee',
-    padding: 5
+    marginBottom: '2em',
+    border: '1px dotted #444',
+    padding: 10,
+    gridTemplateColumns: 'minmax(150px, 0fr) 3fr',
+    gridTemplateAreas: '"img" "name"'
   }
 }
 
@@ -59,16 +59,15 @@ export default class SearchResults extends React.Component {
           results[0].artistName
         }`}</h2>
         {loading && !results ? null : (
-          <div style={styles.media} id="searchResults">
+          <div style={styles.searchResults} id="searchResults">
             {results.map(album => (
-              <div key={album.collectionId}>
-                <div style={styles.img}>
-                  <img
-                    src={album.artworkUrl100}
-                    alt={`${album.collectionName} coverart`}
-                  />
-                </div>
-                <p style={styles.content}>{album.collectionName}</p>
+              <div style={styles.media} key={album.collectionId}>
+                <img
+                  style={styles.img}
+                  src={album.artworkUrl100}
+                  alt={`${album.collectionName} coverart`}
+                />
+                <h4>{album.collectionName}</h4>
               </div>
             ))}
           </div>

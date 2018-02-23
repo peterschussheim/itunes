@@ -9,11 +9,7 @@ const styles = {
     fontFamily: 'Helvetica'
   },
   wrapper: {
-    display: 'grid',
-    gridGap: '10px',
-    width: '75%',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gridTemplateRows: 'repeat(auto-fit, minmax(200px, 1fr))'
+    width: '75%'
   }
 }
 
@@ -81,9 +77,9 @@ class App extends Component {
         <br />
         {this.state.results == null ? null : (
           <SearchResults
+            style={styles.wrapper}
             results={this.state.results}
             loading={this.state.loading}
-            style={styles.wrapper}
           />
         )}
         {this.state.errorMessage ? (
