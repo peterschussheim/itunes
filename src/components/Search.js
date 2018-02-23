@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const styles = {
   normal: {
@@ -11,18 +12,36 @@ const styles = {
   }
 }
 
-export default function Search({ handleSearch, handleChange, error }) {
-  const placeholder = error ? 'Please enter an artist' : 'Search for an artist'
-
-  return (
-    <form onSubmit={handleSearch}>
+const Search = ({ handleSearch, handleChange, handleReset, error, query }) => (
+  <React.Fragment>
+    <div>
+      {error ? (
+        <p style={styles.error}>Please enter an artist</p>
+      ) : (
+        <p style={styles.normal}>{''}</p>
+      )}
+    </div>
+    <form>
       <input
-        style={error ? styles.error : styles.normal}
         type="text"
-        placeholder={placeholder}
+        style={styles.normal}
+        placeholder="Search for an artist"
         onChange={handleChange}
+        value={query}
       />{' '}
-      <input type="submit" />
+      <button onClick={handleSearch}>Search</button>{' '}
+      <button type="button" onClick={handleReset}>
+        Reset Query
+      </button>
     </form>
-  )
+  </React.Fragment>
+)
+
+Search.propTypes = {
+  handleSearch: PropTypes.func,
+  handleChange: PropTypes.func,
+  handleReset: PropTypes.func,
+  error: PropTypes.bool
 }
+
+export default Search

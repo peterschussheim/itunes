@@ -2,17 +2,27 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const styles = {
-  backgroundColor: 'rgba(68, 68, 68, 0.16)',
-  color: 'black',
-  borderRadius: '0px',
-  width: '50%',
-  padding: '20px',
-  fontSize: '100%'
+  media: {
+    display: 'grid',
+    gridColumnGap: '20px',
+    gridTemplateRows: 'auto 1fr auto',
+    gridTemplateAreas: '"img" "name" "content"'
+  },
+  img: {
+    paddingTop: 5,
+    gridArea: 'img',
+    maxWidth: '100%'
+  },
+  name: { gridArea: 'name' },
+  content: {
+    gridArea: 'content',
+    backgroundColor: '#eee',
+    padding: 5
+  }
 }
 
 export default class SearchResults extends React.Component {
   static propTypes = {
-    resultCount: PropTypes.number,
     results: PropTypes.arrayOf(
       PropTypes.shape({
         wrapperType: PropTypes.string,
@@ -37,28 +47,33 @@ export default class SearchResults extends React.Component {
         releaseDate: PropTypes.string,
         primaryGenreName: PropTypes.string
       })
-    )
+    ).isRequired
   }
 
   render() {
-    const { data } = this.props
+    const { results, loading } = this.props
+
     return (
-      <div id="searchResults">
-        <h2>{`Popular albums by ${data[0].artistName}`}</h2>
-        <div style={styles}>
-          {data.map(album => {
-            return (
+      <React.Fragment>
+        <h2 style={styles.name}>{`Popular albums by ${
+          results[0].artistName
+        }`}</h2>
+        {loading && !results ? null : (
+          <div style={styles.media} id="searchResults">
+            {results.map(album => (
               <div key={album.collectionId}>
-                <img
-                  src={album.artworkUrl100}
-                  alt={`${album.collectionName} cover-art`}
-                />
-                <p>{album.collectionName}</p>
+                <div style={styles.img}>
+                  <img
+                    src={album.artworkUrl100}
+                    alt={`${album.collectionName} coverart`}
+                  />
+                </div>
+                <p style={styles.content}>{album.collectionName}</p>
               </div>
-            )
-          })}
-        </div>
-      </div>
+            ))}
+          </div>
+        )}
+      </React.Fragment>
     )
   }
 }
