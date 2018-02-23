@@ -19,10 +19,11 @@ const styles = {
 
 class App extends Component {
   initialState = {
-    dataLoaded: false,
+    loading: false,
     query: '',
-    data: null,
-    error: false
+    results: null,
+    error: false,
+    errorMessage: null
   }
 
   state = this.initialState
@@ -33,41 +34,70 @@ class App extends Component {
 
   handleSearch = async e => {
     e.preventDefault()
-    if (this.state.query) {
+    if (this.state.query && this.state.query.length > 2) {
+      this.setState({ loading: true })
       const { query } = this.state
-      const res = await fetch(
-        `https://itunes.apple.com/search?term=${query}&entity=album`
-      )
-      const data = await res.json()
-
-      this.setState({
-        dataLoaded: true,
-        query: query,
-        data: data.results,
-        error: false
-      })
+      try {
+        const res = await fetch(
+          `https://itunes.apple.com/search?term=${query}&entity=album`
+        )
+        const { results } = await res.json()
+        this.setState({
+          loading: false,
+          query,
+          results,
+          error: false
+        })
+      } catch (err) {
+        const { message, stack } = err
+        this.setState({
+          errorMessage: {
+            message,
+            stack
+          }
+        })
+      }
+    } else {
+      this.setState({ error: true })
     }
-
-    this.setState({ error: true })
   }
 
-  handleResetSearch = () => {}
+  handleReset = e => {
+    e.preventDefault()
+    this.setState(this.initialState)
+  }
 
   render() {
     return (
       <div style={styles.app}>
+        <h1>Welcome to iTunes artist search!</h1>
         <Search
+          query={this.state.query}
           error={this.state.error ? this.state.error : null}
           handleChange={this.handleChange}
           handleSearch={this.handleSearch}
+          handleReset={this.handleReset}
         />
-        {this.state.dataLoaded && (
+        <br />
+        {this.state.results == null ? null : (
           <SearchResults
+            results={this.state.results}
+            loading={this.state.loading}
             style={styles.wrapper}
-            data={this.state.data}
-            artistNameDisplay={this.state.query}
           />
         )}
+        {this.state.errorMessage ? (
+          <React.Fragment>
+            MESSAGE:{' '}
+            <pre>{JSON.stringify(this.state.errorMessage.message)}</pre>
+            STACK TRACE:{' '}
+            <pre>
+              {this.state.errorMessage.stack
+                .split('\n')
+                .map(line => <pre key={line}>{line}</pre>)}
+            </pre>
+          </React.Fragment>
+        ) : null}
       </div>
     )
   }
