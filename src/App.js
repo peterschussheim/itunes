@@ -24,14 +24,14 @@ class App extends Component {
     loading: false,
     query: '',
     results: null,
-    error: false,
+    inputError: false,
     errorMessage: null
   }
 
   state = this.initialState
 
   handleChange = e => {
-    this.setState({ error: false, query: e.target.value })
+    this.setState({ inputError: false, query: e.target.value })
   }
 
   handleSearch = async e => {
@@ -44,15 +44,21 @@ class App extends Component {
           `https://itunes.apple.com/search?term=${query}&entity=album`
         )
         const { results } = await res.json()
+
+        if (results.length === 0) {
+          throw new Error('Query returned zero results')
+        }
+
         this.setState({
           loading: false,
           query,
           results,
-          error: false
+          inputError: false
         })
       } catch (err) {
         const { message, stack } = err
         this.setState({
+          loading: false,
           errorMessage: {
             message,
             stack
@@ -60,7 +66,7 @@ class App extends Component {
         })
       }
     } else {
-      this.setState({ error: true })
+      this.setState({ inputError: true })
     }
   }
 
@@ -75,19 +81,13 @@ class App extends Component {
         <h1>iTunes artist search</h1>
         <Search
           query={this.state.query}
-          error={this.state.error ? this.state.error : null}
+          error={this.state.inputError ? this.state.inputError : null}
           handleChange={this.handleChange}
           handleSearch={this.handleSearch}
           handleReset={this.handleReset}
         />
         <br />
-        {this.state.results == null ? null : (
-          <SearchResults
-            results={this.state.results}
-            loading={this.state.loading}
-          />
-        )}
-        {this.state.errorMessage ? (
+        {!this.state.results && this.state.errorMessage ? (
           <React.Fragment>
             MESSAGE:{' '}
             <pre>{JSON.stringify(this.state.errorMessage.message)}</pre>
@@ -98,7 +98,12 @@ class App extends Component {
                 .map(line => <pre key={line}>{line}</pre>)}
             </pre>
           </React.Fragment>
-        ) : null}
+        ) : (
+          <SearchResults
+            results={this.state.results}
+            loading={this.state.loading}
+          />
+        )}
       </div>
     )
   }

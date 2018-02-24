@@ -5,6 +5,8 @@
 * Search `iTunes` API for your favorite artists
 * Clean, responsive and functional UI
 * 'Scroll to top button' for convenience
+* Basic helper to print errors from API calls (could be improved using an `Error Boundary`)
+* Simple input validation
 
 <details>
  <summary>Requirements</summary>

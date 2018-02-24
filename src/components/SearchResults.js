@@ -46,18 +46,16 @@ export default class SearchResults extends React.Component {
         releaseDate: PropTypes.string,
         primaryGenreName: PropTypes.string
       })
-    ).isRequired
+    ),
+    errorMessage: PropTypes.object
   }
 
   render() {
-    const { results, loading } = this.props
+    const { results, errorMessage } = this.props
 
     return (
       <React.Fragment>
-        <h2 style={styles.name}>{`Popular albums by ${
-          results[0].artistName
-        }`}</h2>
-        {loading && !results ? null : (
+        {!errorMessage && results === null ? null : (
           <div style={styles.searchResults} id="searchResults">
             {results.map(album => (
               <div style={styles.media} key={album.collectionId}>
