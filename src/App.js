@@ -6,10 +6,16 @@ import SearchResults from './components/SearchResults'
 const styles = {
   app: {
     justifyItems: 'center',
-    fontFamily: 'Helvetica'
-  },
-  wrapper: {
-    width: '75%'
+    fontFamily:
+      '-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif',
+    width: '85%',
+    color: 'rgb(71, 71, 71)',
+    border: '1px solid #7f3cb3',
+    borderRadius: '2px',
+    paddingLeft: '18px',
+    paddingRight: '18px',
+    paddingTop: '5px',
+    paddingBottom: '15px'
   }
 }
 
@@ -66,7 +72,7 @@ class App extends Component {
   render() {
     return (
       <div style={styles.app}>
-        <h1>Welcome to iTunes artist search!</h1>
+        <h1>iTunes artist search</h1>
         <Search
           query={this.state.query}
           error={this.state.error ? this.state.error : null}
@@ -77,7 +83,6 @@ class App extends Component {
         <br />
         {this.state.results == null ? null : (
           <SearchResults
-            style={styles.wrapper}
             results={this.state.results}
             loading={this.state.loading}
           />
