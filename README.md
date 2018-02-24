@@ -1,5 +1,9 @@
 # itunes
 
+## Overview
+
+Visit a [live demo](https://itunes.peterschussheim.com/) of this app or follow the instructions below to run locally.
+
 ## Features
 
 * Search `iTunes` API for your favorite artists
@@ -7,6 +11,15 @@
 * 'Scroll to top button' for convenience
 * Basic helper to print errors from API calls (could be improved using an `Error Boundary`)
 * Simple input validation
+
+## Local Development
+
+If you are familiar with `create-react-app`, you can use the `react-scripts` commands included in that project. Otherwise, use the list below to get started:
+
+1. clone or download this repo
+2. extract into desired local directory and `cd` into project root
+3. `yarn` to install dependencies
+4. `yarn start` to start a local development server (this opens a browser window)
 
 <details>
  <summary>Requirements</summary>
