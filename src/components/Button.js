@@ -14,12 +14,6 @@ const styles = {
     textDecoration: 'none',
     outlineColor: 'blue',
     outlineWidth: 'thin'
-  },
-  scrollButton: {
-    ...this.button,
-    position: 'static',
-    bottom: 10,
-    right: 10
   }
 }
 
