@@ -1,9 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { SearchButton, ResetButton } from './Button'
+
 const styles = {
   normal: {
-    width: '25'
+    maxWidth: '75%'
+  },
+  input: {
+    border: '1px solid #7f3cb3',
+    marginBottom: 5,
+    outlineColor: 'blue',
+    outlineWidth: 'thin',
+    width: '50%',
+    height: 18
   },
   error: {
     color: 'red',
@@ -21,18 +31,17 @@ const Search = ({ handleSearch, handleChange, handleReset, error, query }) => (
         <p style={styles.normal}>{''}</p>
       )}
     </div>
-    <form>
+    <form style={styles.normal}>
       <input
+        style={styles.input}
         type="text"
-        style={styles.normal}
         placeholder="Search for an artist"
         onChange={handleChange}
         value={query}
       />{' '}
-      <button onClick={handleSearch}>Search</button>{' '}
-      <button type="button" onClick={handleReset}>
-        Reset Query
-      </button>
+      <br />
+      <SearchButton handleSearch={handleSearch} />{' '}
+      <ResetButton handleReset={handleReset} />
     </form>
   </React.Fragment>
 )
@@ -41,7 +50,8 @@ Search.propTypes = {
   handleSearch: PropTypes.func,
   handleChange: PropTypes.func,
   handleReset: PropTypes.func,
-  error: PropTypes.bool
+  error: PropTypes.bool,
+  query: PropTypes.string
 }
 
 export default Search
