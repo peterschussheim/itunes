@@ -1,22 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ScrollButton } from './Button'
+
 const styles = {
   searchResults: {
     maxWidth: '60%'
   },
   img: {
     gridArea: 'img',
-    paddingTop: 5,
     maxWidth: '100%'
   },
   media: {
     display: 'grid',
     gridColumnGap: '20px',
     marginBottom: '2em',
-    border: '1px dotted #444',
-    padding: 10,
-    gridTemplateColumns: 'minmax(150px, 0fr) 3fr',
+    gridTemplateColumns: 'minmax(100px, 0fr) 3fr',
     gridTemplateAreas: '"img" "name"'
   }
 }
@@ -70,6 +69,7 @@ export default class SearchResults extends React.Component {
                 <h4>{album.collectionName}</h4>
               </div>
             ))}
+            <ScrollButton delay="100" text="Scroll to the Top" />
           </div>
         )}
       </React.Fragment>
